@@ -2,7 +2,9 @@ function App() {
 
   return (
     <>
-      
+      <header className="bg-red-400 py-5">
+        <h1 className="text-center text-4xl font-black">Tip Calculator</h1>
+      </header>
     </>
   )
 }
