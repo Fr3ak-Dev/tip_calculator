@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { OrderItem } from "../types"
+import { MenuItem, OrderItem } from "../types"
 
 export default function useOrder() {
     const [order, setOrder] = useState<OrderItem[]>([])
 
-    const addItem = () => {
-        console.log("Adding item")
+    const addItem = (item: MenuItem) => {
+        console.log(item)
     }
 
     return {
