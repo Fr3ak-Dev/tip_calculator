@@ -4,7 +4,11 @@ import { OrderItem } from "../types"
 export default function useOrder() {
     const [order, setOrder] = useState<OrderItem[]>([])
 
-    return {
+    const addItem = () => {
+        console.log("Adding item")
+    }
 
+    return {
+        addItem
     }
 }
