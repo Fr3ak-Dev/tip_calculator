@@ -1,22 +1,33 @@
-export default function OrderTotals() {
-  return (
-    <>
-    <div className="">
-        <h2 className="font-black text-2xl">Totales y Propina:</h2>
-        <p>Subtotal a pagar: {''}
-            <span className="font-bold">Bs. 0</span>
-        </p>
-        <p>Propina: {''}
-            <span className="font-bold">Bs. 0</span>
-        </p>
-        <p>Total a pagar: {''}
-            <span className="font-bold">Bs. 0</span>
-        </p>
-    </div>
+import { useMemo } from "react"
+import { OrderItem } from "../types"
+import { formatCurrency } from "../helpers"
 
-    <button>
+type OrderTotalsProps = {
+    order: OrderItem[]
+}
 
-    </button>
-    </>
-  )
+export default function OrderTotals({ order }: OrderTotalsProps) {
+
+    const subTotalAmount = useMemo(() => order.reduce((total, item) => total + (item.quantity * item.price), 0), [order])
+
+    return (
+        <>
+            <div className="">
+                <h2 className="font-black text-2xl">Totales y Propina:</h2>
+                <p>Subtotal a pagar: {''}
+                    <span className="font-bold">{formatCurrency(subTotalAmount)}</span>
+                </p>
+                <p>Propina: {''}
+                    <span className="font-bold">Bs. 0</span>
+                </p>
+                <p>Total a pagar: {''}
+                    <span className="font-bold">Bs. 0</span>
+                </p>
+            </div>
+
+            <button>
+
+            </button>
+        </>
+    )
 }
