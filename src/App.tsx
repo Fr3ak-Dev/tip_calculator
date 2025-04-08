@@ -7,7 +7,7 @@ import useOrder from "./hooks/useOrder" // global state
 
 function App() {
 
-  const { order, addItem, removeItem, tip, setTip } = useOrder()
+  const { order, tip, setTip, addItem, removeItem, saveOrder } = useOrder()
 
   return (
     <>
@@ -20,27 +20,36 @@ function App() {
           <h2 className="text-4xl font-black">Menu</h2>
           <div className="space-y-3 mt-10">
             {menuItems.map(item => (
-              <MenuItem 
-                key={item.id} 
-                item={item} 
+              <MenuItem
+                key={item.id}
+                item={item}
                 addItem={addItem} />
             ))}
           </div>
         </div>
         <div className="border border-dashed border-slate-300 p-5 rounded-lg space-y-3">
-          <OrderContents 
-            order={order}
-            removeItem={removeItem}
-          />
+          {order.length ? (
+            <>
+              <OrderContents
+                order={order}
+                removeItem={removeItem}
+              />
 
-          <TipForm 
-            setTip={setTip} 
-          />
+              <TipForm
+                setTip={setTip}
+                tip={tip}
+              />
 
-          <OrderTotals
-            order={order}
-            tip={tip}
-          />
+              <OrderTotals
+                order={order}
+                tip={tip}
+                saveOrder={saveOrder}
+              />
+            </>
+          ) : (
+            <p className="text-center">La orden esta vacía</p>
+          )}
+
         </div>
       </main>
     </>

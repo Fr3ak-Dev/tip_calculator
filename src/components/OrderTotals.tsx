@@ -1,17 +1,30 @@
-import { useCallback, useMemo } from "react"
+import { useCallback } from "react"
 import { OrderItem } from "../types"
 import { formatCurrency } from "../helpers"
 
 type OrderTotalsProps = {
     order: OrderItem[],
-    tip: number
+    tip: number,
+    saveOrder: () => void
 }
 
-export default function OrderTotals({ order, tip }: OrderTotalsProps) {
+export default function OrderTotals({ order, tip, saveOrder }: OrderTotalsProps) {
 
-    const subTotalAmount = useCallback(() => order.reduce((total, item) => total + (item.quantity * item.price), 0), [order])
-    const tipAmount = useCallback(() => (subTotalAmount() * tip), [tip, order])
-    const totalAmount = useCallback(() => subTotalAmount() + tipAmount(), [tip])
+    const subTotalAmount = useCallback(() => {
+        const total = order.reduce((total, item) => total + (item.quantity * item.price), 0)
+        console.log(`Subtotal a pagar: ${formatCurrency(total)}`)
+        return total
+    }, [order])
+    const tipAmount = useCallback(() => {
+        const total = subTotalAmount() * tip
+        console.log(`Propina: ${formatCurrency(total)}`)
+        return total
+    }, [tip, order])
+    const totalAmount = useCallback(() => {
+        const total = subTotalAmount() + tipAmount()
+        console.log(`Total a pagar: ${formatCurrency(total)}`)
+        return total
+    }, [tip, order])
 
     return (
         <>
@@ -28,8 +41,9 @@ export default function OrderTotals({ order, tip }: OrderTotalsProps) {
                 </p>
             </div>
 
-            <button>
-
+            <button className="w-full bg-black text-white p-3 uppercase font-bold mt-10 disabled:opacity-10 cursor-pointer"
+                disabled={totalAmount() === 0} onClick={saveOrder}>
+                Guardar Orden
             </button>
         </>
     )
